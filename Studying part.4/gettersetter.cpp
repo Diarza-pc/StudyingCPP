@@ -5,26 +5,18 @@ class portion{
         int portion = 0;
 
     public:
-        int getportion() {
-            std::cout << "You didn't take any food?\n";
-            return portion;
+        int take;
+        void setportion() {
+            std::cout << "How much portion of food did you take?: ";
+            std::cin >> take;
         }
-        void setportion(int portion) {
-            if(portion <= 0) {
-                this->portion = portion;
-                std::cout << "Why didn't take your food?\n";
-                portion = 1;
-                std::cout << "Here, " << portion << " portion should be enough";
-            }
-            else if(portion > 3) {
-                this->portion = portion;
-                std::cout << portion << " portion!!??" << "No way, each person just can have 3 portion\n";
-                portion = 3;
-                std::cout << "So, " << portion << " should be enough for you";
-            }
-            else {
-                this-> portion = portion;
-                std::cout << "Enjoy!";
+        void settotal() {
+            if(portion > 0 && portion <= 3) {
+                std::cout << "Enjoy your food";
+            } else if(portion > 3 || portion == 0) {
+                std::cout << "No..., you must take between 1-3 portion of this food, so how much did you want?";
+            } else {
+                std::cout << "What?";
             }
         }
 };
@@ -32,7 +24,9 @@ int main() {
     //getter = function that make the object attributes readable
     //setter = similiar with getter, but instead readable, setter make the private object attribute writeable
     portion port;
-    port.getportion();
-    port.setportion(9);
+
+    port.setportion();
+    port.settotal();
+    
     return 0;
 }
