@@ -175,60 +175,72 @@ void action() {
     std::cout << "1. Check status" << std::endl;
     std::cout << "2. Leave\n";
 }
-
+struct tool{
+    int choice;
+    int act;
+    int choose;
+    char decide;
+    std::string say;
+};
 int main() {
     std::string companion[] = {"1. Direwolf", "2. Griffin", "3. Slime"};
     std::string attacker[] = {"1. Fenrir", "2. Pheonix", "3. Mystic hound"};
     Pet pet;
     Companion compa;
     Attacker attack;
-    int choice;
-    int act;
-    int choose;
+    tool tool;
+    
 
     loading();
     do {
         Sleep(1000);
         system("cls");
         ch();
-        std::cin >> choice;
+        std::cin >> tool.choice;
     if(std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    if(choice == 1) {
+    if(tool.choice == 1) {
         status();
-    } else if(choice == 2) {
+    } else if(tool.choice == 2) {
         action();
-        std::cin >> act;
-           if(act == 1) {
+        std::cin >> tool.act;
+           if(tool.act == 1) {
             system("cls");
             std::cout << "**********Companion**********\n";
             comp(companion, 3);
-            std::cout << "Please select one companion" << std::endl;
-            std::cin >> choose;
-            switch(choose) {
+            std::cout << "Please select one companion, or type '4' to quit" << std::endl;
+            std::cin >> tool.choose;
+            switch(tool.choose) {
                 case 1: 
+                    while(true){
                     compa.Direwolf(pet.HP, pet.energy, pet.damage, pet.speed);
-                    break;
+                    std::cout << "Would you like to change something?(y/n): ";
+                    std::cin >> tool.decide;
+                    tool.decide = tolower(tool.decide);
+                    if(tool.decide == 'y') {
+                        std::cout<< "ok/n";
+                    } else if(tool.decide == 'n'){
+                        break;
+                    }
+                }
                 case 2:
                     compa.Griffin(pet.HP, pet.energy, pet.damage, pet.speed);
-                    break;
                 case 3:
                     compa.Slime(pet.HP, pet.energy, pet.damage, pet.speed);
-                    break;
                 default:
                     std::cout << "You hasn't tame that species yet\n";
                     break;
             }
            }
         
-    } else if(choice == 3) {
+    } else if(tool.choice == 3) {
         std::cout << "**********Summoned Beast**********\n";
         attk(attacker, 3);
-        std::cin >> choose;
-        switch(choose) {
+        std::cin >> tool.choose;
+        switch(tool.choose) {
             case 1:
                 attack.Fenrir(pet.HP, pet.energy, pet.damage, pet.speed, pet.equipment);
                 break;
@@ -243,7 +255,7 @@ int main() {
                     break;
         }
     }
-    }while(choice != 5);
+    }while(tool.choice != 5);
     return 0;
 }
 
