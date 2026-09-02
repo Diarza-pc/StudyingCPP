@@ -1,0 +1,2 @@
+I know it's really simple but waste many word, but it was my very first project that i build with my own understanding that time. 
+Well, i forgot to upload it on github back then, i'll upload my another project later.
