@@ -4,14 +4,15 @@
 
 class Pet{
     public:
-        int HP;
-        int energy;
-        int damage;
-        int speed;
-        std::string equipment;
+        int HP = 0;
+        int energy = 0;
+        int damage = 0;
+        int speed = 0;
+        std::string equipment = "-";
 };
 
-class Companion : public Pet {
+namespace {
+    class Companion : public Pet {
     public:
         void Direwolf(int HP, int energy, int damage, int speed) {
             this->HP = HP;
@@ -63,8 +64,10 @@ class Companion : public Pet {
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
         }
-};
-class Attacker : public Pet {
+    };
+}
+namespace {
+    class Attacker : public Pet {
     public:
         void Fenrir(int HP, int energy, int damage, int speed, std::string equipment) {
             this->HP = HP;
@@ -84,7 +87,7 @@ class Attacker : public Pet {
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
             if(equipment == "-") {
-                std::cout << "Your beast hasn't wear any equpment yet";
+                std::cout << "Your beast hasn't wear any equipment yet";
             }
         }
 
@@ -100,13 +103,13 @@ class Attacker : public Pet {
             this->equipment = equipment;
             equipment = "-";
 
-            std::cout << "Species: Pheonix\n";
+            std::cout << "Species: Phoenix\n";
             std::cout << "HP: " << HP << '\n';
             std::cout << "Energy: " << energy << '\n';
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
             if(equipment == "-") {
-                std::cout << "Your beast hasn't wear any equpment yet";
+                std::cout << "Your beast hasn't wear any equipment yet";
             }
         }
 
@@ -131,11 +134,12 @@ class Attacker : public Pet {
                 std::cout << "Your beast hasn't wear any equpment yet";
             }
         }
-};
+    };
+}
 void loading() {
-    std::string load ="Loading....\n";
-    std::string greet = "Welcome, ";
-    std::string down = "Master\n";
+    const std::string load ="Loading....\n";
+    const std::string greet = "Welcome, ";
+    const std::string down = "Master\n";
     for(char c:load) {
         std::cout << c;
         Sleep(100);
@@ -176,15 +180,16 @@ void action() {
     std::cout << "2. Leave\n";
 }
 struct tool{
-    int choice;
-    int act;
-    int choose;
-    char decide;
-    std::string say;
+    int choice = 0;
+    int act = 0;
+    int choose = 0;
+    char decide = '-';
+    std::string say = "-";
+    bool result;
 };
 int main() {
     std::string companion[] = {"1. Direwolf", "2. Griffin", "3. Slime"};
-    std::string attacker[] = {"1. Fenrir", "2. Pheonix", "3. Mystic hound"};
+    std::string attacker[] = {"1. Fenrir", "2. Phoenix", "3. Mystic hound"};
     Pet pet;
     Companion compa;
     Attacker attack;
@@ -195,12 +200,12 @@ int main() {
     do {
         Sleep(1000);
         system("cls");
-        ch();
-        std::cin >> tool.choice;
     if(std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+        ch();
+        std::cin >> tool.choice;
 
     if(tool.choice == 1) {
         status();
@@ -208,32 +213,40 @@ int main() {
         action();
         std::cin >> tool.act;
            if(tool.act == 1) {
-            system("cls");
             std::cout << "**********Companion**********\n";
             comp(companion, 3);
-            std::cout << "Please select one companion, or type '4' to quit" << std::endl;
-            std::cin >> tool.choose;
-            switch(tool.choose) {
-                case 1: 
-                    while(true){
-                    compa.Direwolf(pet.HP, pet.energy, pet.damage, pet.speed);
-                    std::cout << "Would you like to change something?(y/n): ";
-                    std::cin >> tool.decide;
-                    tool.decide = tolower(tool.decide);
-                    if(tool.decide == 'y') {
-                        std::cout<< "ok/n";
-                    } else if(tool.decide == 'n'){
-                        break;
-                    }
-                }
-                case 2:
-                    compa.Griffin(pet.HP, pet.energy, pet.damage, pet.speed);
-                case 3:
-                    compa.Slime(pet.HP, pet.energy, pet.damage, pet.speed);
-                default:
-                    std::cout << "You hasn't tame that species yet\n";
-                    break;
-            }
+               while (true) {
+                   std::cout << "Please select one companion, or type '4' to quit" << std::endl;
+                   std::cin >> tool.choose;
+                   switch(tool.choose) {
+                       case 1:
+                           compa.Direwolf(pet.HP, pet.energy, pet.damage, pet.speed);
+                           std::cout << "Would you like to change something?(y/n): ";
+                           std::cin >> tool.decide;
+                           tool.decide = tolower(tool.decide);
+                           if(tool.decide == 'y') {
+                               std::cout<< "ok/n";
+                           } else if(tool.decide == 'n'){
+                               break;
+                           }
+                           break;
+                       case 2:
+                           compa.Griffin(pet.HP, pet.energy, pet.damage, pet.speed);
+                           break;
+                       case 3:
+                           compa.Slime(pet.HP, pet.energy, pet.damage, pet.speed);
+                           break;
+                       case 4:
+                           tool.result = true;
+                           break;
+                       default:
+                           std::cout << "You hasn't tame that species yet\n";
+                           break;
+                   }
+                   if (tool.result == true) {
+                       break;
+                   }
+               }
            }
         
     } else if(tool.choice == 3) {
