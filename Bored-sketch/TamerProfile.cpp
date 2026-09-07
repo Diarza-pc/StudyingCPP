@@ -181,8 +181,8 @@ void action() {
 }
 struct tool{
     int choice = 0;
-    int act = 0;
-    int choose = 0;
+    int act;
+    int choose;
     char decide = '-';
     std::string say = "-";
     bool result;
@@ -198,26 +198,35 @@ int main() {
 
     loading();
     do {
-        Sleep(1000);
-        system("cls");
-    if(std::cin.fail()) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
         ch();
         std::cin >> tool.choice;
 
     if(tool.choice == 1) {
         status();
     } else if(tool.choice == 2) {
-        action();
+        do {
+            action();
         std::cin >> tool.act;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                std::cout << "Please, input number between 1-2 \n";
+                continue;
+            }
            if(tool.act == 1) {
-            std::cout << "**********Companion**********\n";
-            comp(companion, 3);
                while (true) {
                    std::cout << "Please select one companion, or type '4' to quit" << std::endl;
+                   std::cout << "**********Companion**********\n";
+                   comp(companion, 3);
                    std::cin >> tool.choose;
+                   if (std::cin.fail()) {
+                       std::cin.clear();
+                       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                       std::cout << "Please, input number between 1-4 \n";
+                       continue;
+                   }
                    switch(tool.choose) {
                        case 1:
                            compa.Direwolf(pet.HP, pet.energy, pet.damage, pet.speed);
@@ -225,30 +234,51 @@ int main() {
                            std::cin >> tool.decide;
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
-                               std::cout<< "ok/n";
+                               std::cout<< "ok \n";
                            } else if(tool.decide == 'n'){
-                               break;
+                               tool.result = true;
                            }
                            break;
                        case 2:
                            compa.Griffin(pet.HP, pet.energy, pet.damage, pet.speed);
+                           std::cout << "Would you like to change something?(y/n): ";
+                           std::cin >> tool.decide;
+                           tool.decide = tolower(tool.decide);
+                           if(tool.decide == 'y') {
+                               std::cout<< "ok\n";
+                           } else if(tool.decide == 'n'){
+                               tool.result = true;
+                           } else {
+                               std::cout << "Please, input y/n \n";
+                           }
                            break;
                        case 3:
                            compa.Slime(pet.HP, pet.energy, pet.damage, pet.speed);
+                           std::cout << "Would you like to change something?(y/n): ";
+                           std::cin >> tool.decide;
+                           tool.decide = tolower(tool.decide);
+                           if(tool.decide == 'y') {
+                               std::cout<< "ok \n";
+                           } else if(tool.decide == 'n'){
+                               tool.result = true;
+                           }
                            break;
                        case 4:
                            tool.result = true;
                            break;
                        default:
                            std::cout << "You hasn't tame that species yet\n";
-                           break;
+                           continue;
                    }
                    if (tool.result == true) {
                        break;
                    }
                }
            }
-        
+            if (tool.result == true) {
+                break;
+            }
+        }while (tool.act != 1 && tool.act != 2);
     } else if(tool.choice == 3) {
         std::cout << "**********Summoned Beast**********\n";
         attk(attacker, 3);
