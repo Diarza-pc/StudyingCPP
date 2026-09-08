@@ -2,13 +2,95 @@
 #include <windows.h>
 #include <limits>
 
+class Equipment {
+    public:
+    std::string equipment = "-";
+    std::string sword;
+    std::string accessory;
+    std::string armor;
+};
+
+class Sword : public Equipment {
+    public:
+        void stick() {
+            int Atk = 9;
+            int deffense = 0;
+            int spd = 5;
+            int hp = 10;
+        }
+
+        void sword() {
+            int Atk = 15;
+            int deffense = 0;
+            int spd = 3;
+            int hp = 13;
+        }
+
+        void greatsword() {
+          int Atk = 20;
+            int deffense = 0;
+            int spd = -3;
+            int hp = 15;
+        };
+
+};
+
+class Armor : public Equipment {
+    public:
+        void iron() {
+            int Atk = 3;
+            int deffense = 20;
+            int spd = 0;
+            int hp = 30;
+        }
+
+        void diamond() {
+            int Atk = 3;
+            int deffense = 30;
+            int spd = 0;
+            int hp = 50;
+        }
+
+        void chain() {
+            int Atk = 0;
+            int deffense = 10;
+            int spd = 3;
+            int hp = 20;
+        }
+};
+
+class Accessory : public Equipment {
+    public:
+        void necklace() {
+            int Atk = 5;
+            int deffense = 7;
+            int spd = 3;
+            int hp = 2;
+        }
+
+        void boots() {
+            int Atk = 1;
+            int deffense = 9;
+            int spd = 5;
+            int hp = 5;
+        }
+        void hat() {
+            int Atk = 3;
+            int deffense = 6;
+            int spd = 2;
+            int hp = 7;
+        }
+};
 class Pet{
     public:
+        Equipment equip;
+        Sword sword;
+        Armor armor;
+        Accessory accessory;
         int HP = 0;
         int energy = 0;
         int damage = 0;
         int speed = 0;
-        std::string equipment = "-";
 };
 
 namespace {
@@ -69,7 +151,7 @@ namespace {
 namespace {
     class Attacker : public Pet {
     public:
-        void Fenrir(int HP, int energy, int damage, int speed, std::string equipment) {
+        void Fenrir(int HP, int energy, int damage, int speed) {
             this->HP = HP;
             HP = 300;
             this->energy = energy;
@@ -78,20 +160,18 @@ namespace {
             damage = 10;
             this->speed = speed;
             speed = 12;
-            this->equipment = equipment;
-            equipment = "-";
 
             std::cout << "Species: Fenrir\n";
             std::cout << "HP: " << HP << '\n';
             std::cout << "Energy: " << energy << '\n';
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
-            if(equipment == "-") {
-                std::cout << "Your beast hasn't wear any equipment yet";
+            if(equip.equipment == "-") {
+                std::cout << "Your beast hasn't wear any equipment yet \n";
             }
         }
 
-        void Pheonix(int HP, int energy, int damage, int speed, std::string equipment) {
+        void Pheonix(int HP, int energy, int damage, int speed) {
             this->HP = HP;
             HP = 235;
             this->energy = energy;
@@ -100,20 +180,18 @@ namespace {
             damage = 15;
             this->speed = speed;
             speed = 30;
-            this->equipment = equipment;
-            equipment = "-";
 
             std::cout << "Species: Phoenix\n";
             std::cout << "HP: " << HP << '\n';
             std::cout << "Energy: " << energy << '\n';
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
-            if(equipment == "-") {
+            if(equip.equipment == "-") {
                 std::cout << "Your beast hasn't wear any equipment yet";
             }
         }
 
-        void MysticHound(int HP, int energy, int damage, int speed, std::string equipment) {
+        void MysticHound(int HP, int energy, int damage, int speed) {
             this->HP = HP;
             HP = 240;
             this->energy = energy;
@@ -122,15 +200,13 @@ namespace {
             damage = 18;
             this->speed = speed;
             speed = 10;
-            this->equipment = equipment;
-            equipment = "-";
 
             std::cout << "Species: Mystic Hound\n";
             std::cout << "HP: " << HP << '\n';
             std::cout << "Energy: " << energy << '\n';
             std::cout << "Damage: " << damage << '\n';
             std::cout << "Speed: " << speed << '\n';
-            if(equipment == "-") {
+            if(equip.equipment == "-") {
                 std::cout << "Your beast hasn't wear any equpment yet";
             }
         }
@@ -164,6 +240,12 @@ void attk(std::string arr2[], int size2) {
         std::cout << arr2[i] << std::endl;
     }
 }
+void items() {
+    std::cout << "Alright, select the items you want to wear: \n";
+    std::cout << "1. Armor\n";
+    std::cout << "2. Sword\n";
+    std::cout << "3. Accessory\n";
+}
 void status();
 void ch() {
     std::cout << "********************\n";
@@ -194,6 +276,7 @@ int main() {
     Companion compa;
     Attacker attack;
     tool tool;
+    Equipment equip;
     
 
     loading();
@@ -234,7 +317,7 @@ int main() {
                            std::cin >> tool.decide;
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
-                               std::cout<< "ok \n";
+                               items();
                            } else if(tool.decide == 'n'){
                                tool.result = true;
                            }
@@ -245,7 +328,7 @@ int main() {
                            std::cin >> tool.decide;
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
-                               std::cout<< "ok\n";
+                               items();
                            } else if(tool.decide == 'n'){
                                tool.result = true;
                            } else {
@@ -258,7 +341,12 @@ int main() {
                            std::cin >> tool.decide;
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
-                               std::cout<< "ok \n";
+                               items();
+                               std::cin >> tool.choose;
+                               switch(tool.choose) {
+                                   case 1:
+                                       break;
+                               }
                            } else if(tool.decide == 'n'){
                                tool.result = true;
                            }
@@ -285,13 +373,13 @@ int main() {
         std::cin >> tool.choose;
         switch(tool.choose) {
             case 1:
-                attack.Fenrir(pet.HP, pet.energy, pet.damage, pet.speed, pet.equipment);
+                attack.Fenrir(pet.HP, pet.energy, pet.damage, pet.speed);
                 break;
             case 2:
-                attack.Pheonix(pet.HP, pet.energy, pet.damage, pet.speed, pet.equipment);
+                attack.Pheonix(pet.HP, pet.energy, pet.damage, pet.speed);
                 break;
             case 3:
-                attack.MysticHound(pet.HP, pet.energy, pet.damage, pet.speed, pet.equipment);
+                attack.MysticHound(pet.HP, pet.energy, pet.damage, pet.speed);
                 break;
             default:
                     std::cout << "You hasn't tame that species yet\n";
