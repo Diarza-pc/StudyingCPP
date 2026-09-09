@@ -246,6 +246,11 @@ void items() {
     std::cout << "2. Sword\n";
     std::cout << "3. Accessory\n";
 }
+void weap(std::string arr3[], int size3) {
+    for(int i = 0; i < size3; i++) {
+        std::cout << arr3[i] << '\n';
+    }
+}
 void status();
 void ch() {
     std::cout << "********************\n";
@@ -269,9 +274,19 @@ struct tool{
     std::string say = "-";
     bool result;
 };
+class companionStat{
+    public:
+        Companion statComp;
+        Sword statSword;
+
+    void slimeStat() {
+        
+    }
+};
 int main() {
     std::string companion[] = {"1. Direwolf", "2. Griffin", "3. Slime"};
     std::string attacker[] = {"1. Fenrir", "2. Phoenix", "3. Mystic hound"};
+    std::string weapon[] = {"stick", "sword", "greatsword"};
     Pet pet;
     Companion compa;
     Attacker attack;
@@ -345,6 +360,25 @@ int main() {
                                std::cin >> tool.choose;
                                switch(tool.choose) {
                                    case 1:
+                                       weap(weapon, 3);
+                                       std::cout << "pick one weapon to wear: ";
+                                       std::cin >> tool.choice;
+                                       if (std::cin.fail()) {
+                                           std::cin.clear();
+                                           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                                           std::cout << "Please, input number between 1-3 \n";
+                                           continue;
+                                       }
+
+                                       if(tool.choice == 1) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+
+                                       }
                                        break;
                                }
                            } else if(tool.decide == 'n'){
