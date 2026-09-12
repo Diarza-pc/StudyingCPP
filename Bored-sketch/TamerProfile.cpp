@@ -2,19 +2,19 @@
 #include <windows.h>
 #include <limits>
 
+namespace {
 class Equipment {
     public:
     std::string equipment = "-";
-    std::string sword;
-    std::string accessory;
-    std::string armor;
-    int Atk;
-    int energy;
-    int spd;
-    int hp;
+    int Atk = 0;
+    int energy = 0;
+    int spd = 0;
+    int hp = 0;
 };
+}
 
-class Sword : public Equipment {
+namespace {
+    class Sword : public Equipment {
     public:
         void stick() {
             Atk = 9;
@@ -31,15 +31,17 @@ class Sword : public Equipment {
         }
 
         void greatsword() {
-          Atk = 20;
+            Atk = 20;
             energy = 0;
             spd = -3;
             hp = 15;
         };
 
-};
+    };
+}
 
-class Armor : public Equipment {
+namespace {
+    class Armor : public Equipment {
     public:
         void iron() {
             Atk = 3;
@@ -61,9 +63,11 @@ class Armor : public Equipment {
             spd = 3;
             hp = 20;
         }
-};
+    };
+}
 
-class Accessory : public Equipment {
+namespace {
+    class Accessory : public Equipment {
     public:
         void necklace() {
             Atk = 5;
@@ -84,8 +88,10 @@ class Accessory : public Equipment {
             spd = 2;
             hp = 7;
         }
-};
-class Pet{
+    };
+}
+namespace {
+    class Pet{
     public:
         Equipment equip;
         Sword sword;
@@ -95,7 +101,8 @@ class Pet{
         int energy = 0;
         int damage = 0;
         int speed = 0;
-};
+    };
+}
 
 namespace {
     class Companion : public Pet {
@@ -192,19 +199,20 @@ namespace {
         }
     };
 }
+
 void loading() {
     const std::string load ="Loading....\n";
     const std::string greet = "Welcome, ";
     const std::string down = "Master\n";
-    for(char c:load) {
+    for(const char c:load) {
         std::cout << c;
         Sleep(100);
     }
-    for(char c:greet) {
+    for(const char c:greet) {
         std::cout << c;
         Sleep(50);
     }
-    for(char c:down) {
+    for(const char c:down) {
         std::cout << c;
         Sleep(300);
     }
@@ -254,42 +262,181 @@ struct tool{
     std::string say = "-";
     bool result;
 };
-class companionStat{
+class companionStatwSword{
     public:
         Companion statComp;
         Sword statSword;
 
-    void slimeStat1() {
-        statComp.Slime();
-        statSword.stick();
-
-        std::cout << "Species: Slime\n";
-        std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
-        std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
-        std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
-        std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
-    }
-    void slimeStat2() {
-        statComp.Slime();
-        statSword.sword();
-
-        std::cout << "Species: Slime\n";
-        std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
-        std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
-        std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
-        std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
-    }
-    void slimeStat3() {
-        statComp.Slime();
-        statSword.greatsword();
-
-        std::cout << "Species: Slime\n";
-        std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
-        std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
-        std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
-        std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+    void companion(int species, int pick) {
+        if(species == 1) {
+            std::cout << "Before: \n";
+            statComp.Direwolf();
+            if(pick == 1) {
+                statSword.stick();
+                std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                std::cout << "Species: Direwolf\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if(pick == 2) {
+                statSword.sword();
+                std::cout << "Species: Direwolf\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if(pick == 3) {
+                statSword.greatsword();
+                std::cout << "Species: Direwolf\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            }
+        } else if(species == 2) {
+            std::cout << "Before: \n";
+            statComp.Griffin();
+            if(pick == 1) {
+                statSword.stick();
+                std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                std::cout << "Species: Griffin\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if (pick == 2) {
+                statSword.sword();
+                std::cout << "Species: Griffin\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if(pick == 3) {
+                statSword.greatsword();
+                std::cout << "Species: Griffin\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            }
+        }else if(species == 3) {
+            std::cout << "Before: \n";
+            statComp.Slime();
+            if(pick == 1) {
+                statSword.stick();
+                std::cout << "Species: Slime\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if(pick == 2) {
+                statSword.sword();
+                std::cout << "Species: Slime\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            } else if(pick == 3) {
+                statSword.greatsword();
+                std::cout << "Species: Slime\n";
+                std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+            }
+        }
     }
 };
+namespace {
+    class companionStatwArmor : public companionStatwSword {
+        public:
+        Companion statComp;
+        Armor statArmor;
+
+        void companionwArmor(int species, int pick) {
+            if (species == 1) {
+                statComp.Direwolf();
+                if (pick == 1) {
+                    statArmor.chain();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Direwolf\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                } else if(pick == 2) {
+                    statArmor.iron();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Direwolf\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }else if(pick == 3) {
+                    statArmor.diamond();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Direwolf\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }
+            }else if(species == 2) {
+                statComp.Griffin();
+                if (pick == 1) {
+                    statArmor.chain();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Griffin\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                } else if (pick == 2) {
+                    statArmor.iron();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Griffin\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }else if (pick == 3) {
+                    statArmor.diamond();
+                    std::cout << "Stats has changed!!, your companion wear a stick!!\n";
+                    std::cout << "Species: Griffin\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }
+            } else if(species == 3) {
+                statComp.Slime();
+                if (pick == 1) {
+                    statArmor.chain();
+                    std::cout << "Species: Slime\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                } else if (pick == 2) {
+                    statArmor.iron();
+                    std::cout << "Species: Slime\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }else if(pick == 3) {
+                    statArmor.diamond();
+                    std::cout << "Species: Slime\n";
+                    std::cout << "HP: " << statComp.HP + statSword.hp << '\n';
+                    std::cout << "Energy: " << statComp.energy + statSword.energy << '\n';
+                    std::cout << "Damage: " << statComp.damage + statSword.Atk << '\n';
+                    std::cout << "Speed: " << statComp.speed + statSword.spd << '\n';
+                }
+            }
+        }
+    };
+}
 int main() {
     std::string companion[] = {"1. Direwolf", "2. Griffin", "3. Slime"};
     std::string attacker[] = {"1. Fenrir", "2. Phoenix", "3. Mystic hound"};
@@ -299,7 +446,7 @@ int main() {
     Attacker attack;
     tool tool;
     Equipment equip;
-    companionStat stats;
+    companionStatwSword statsSword;
     
 
     loading();
@@ -341,6 +488,47 @@ int main() {
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
                                items();
+                                std::cin >> tool.choose;
+                               switch(tool.choose) {
+                                   case 1:
+                                       weap(weapon, 3);
+                                       std::cout << "pick one weapon to wear: ";
+                                       std::cin >> tool.choice;
+                                       if (std::cin.fail()) {
+                                           std::cin.clear();
+                                           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                                           std::cout << "Please, input number between 1-3 \n";
+                                           continue;
+                                       }
+
+                                       if(tool.choice == 1) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       } else if (tool.choice == 2) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       } else if (tool.choice == 3) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       }
+                                       break;
+                                   default:
+                                       std::cout << "Please, input number between 1-3 \n";
+                                       break;
+                               }
                            } else if(tool.decide == 'n'){
                                tool.result = true;
                            }
@@ -352,6 +540,47 @@ int main() {
                            tool.decide = tolower(tool.decide);
                            if(tool.decide == 'y') {
                                items();
+                               std::cin >> tool.choose;
+                               switch(tool.choose) {
+                                   case 1:
+                                       weap(weapon, 3);
+                                       std::cout << "pick one weapon to wear: ";
+                                       std::cin >> tool.choice;
+                                       if (std::cin.fail()) {
+                                           std::cin.clear();
+                                           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                                           std::cout << "Please, input number between 1-3 \n";
+                                           continue;
+                                       }
+
+                                       if(tool.choice == 1) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       } else if (tool.choice == 2) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       } else if (tool.choice == 3) {
+                                           std::string text = "Loading..\n";
+                                           for (char c : text) {
+                                               Sleep(100);
+                                               std::cout << c;
+                                           }
+                                           statsSword.companion(tool.choose, tool.choice);
+                                       }
+                                       break;
+                                   default:
+                                       std::cout << "Please, input number between 1-3 \n";
+                                       break;
+                               }
                            } else if(tool.decide == 'n'){
                                tool.result = true;
                            } else {
@@ -385,21 +614,21 @@ int main() {
                                                Sleep(100);
                                                std::cout << c;
                                            }
-                                           stats.slimeStat1();
+                                           statsSword.companion(tool.choose, tool.choice);
                                        } else if (tool.choice == 2) {
                                            std::string text = "Loading..\n";
                                            for (char c : text) {
                                                Sleep(100);
                                                std::cout << c;
                                            }
-                                           stats.slimeStat2();
+                                           statsSword.companion(tool.choose, tool.choice);
                                        } else if (tool.choice == 3) {
                                            std::string text = "Loading..\n";
                                            for (char c : text) {
                                                Sleep(100);
                                                std::cout << c;
                                            }
-                                           stats.slimeStat3();
+                                           statsSword.companion(tool.choose, tool.choice);
                                        }
                                        break;
                                }
