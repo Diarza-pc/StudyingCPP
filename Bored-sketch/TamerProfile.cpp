@@ -1,6 +1,9 @@
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <windows.h>
 #include <limits>
+#include <cctype>
 
 namespace {
 class Equipment {
@@ -10,19 +13,6 @@ class Equipment {
     double energy = 0;
     double spd = 0;
     double hp = 0;
-
-    void equipA() {
-        std::string Arm[3] = {"1. Chain", "2. Iron", "3. Diamond"};
-        for (int i = 0; i < 3; i++) {
-            std::cout << Arm[i] << '\n';
-        }
-    }
-    void equipB() {
-        std::string Acc[3] = {"1. Necklace", "2. Boots", "3. Hat"};
-        for (int i = 0; i < 3; i++) {
-            std::cout << Acc[i] << '\n';
-        }
-    }
 };
 }
 
@@ -90,7 +80,7 @@ namespace {
         }
 
         void boots() {
-            Atk = 1;
+            Atk = 1.24;
             energy = 0.094;
             spd = 2.54;
             hp = 1.144;
@@ -110,10 +100,10 @@ namespace {
         Sword sword;
         Armor armor;
         Accessory accessory;
-        int HP = 0;
-        int energy = 0;
-        int damage = 0;
-        int speed = 0;
+        double HP = 0;
+        double energy = 0;
+        double damage = 0;
+        double speed = 0;
     };
 }
 
@@ -192,6 +182,29 @@ void attk(std::string arr2[], int size2) {
         std::cout << arr2[i] << std::endl;
     }
 }
+
+void Input(std::string ch1, std::string ch2, std::string ch3) {
+    std::cout << "====================DISPLAY====================\n";
+    std::string sword[] = {"1. Stick", "2. Sword", "3. Greatsword"};
+    std::string armor[] = {"1. Chain", "2. Iron", "3. Diamond"};
+    std::string accessory[] = {"1. Necklace", "2. Boots", "3. Hat"};
+
+    std::cout << std::left << std::setw(20) << "==Sword==" << std::setw(20) <<  "==Armor==" << "==Accessory==" << '\n';
+
+    for (int i = 0; i < 3; i++) {
+        std::cout << std::left << std::setw(20) << sword[i] << std::setw(20) << armor[i] << accessory[i] << '\n';
+    }
+    std::cout << "=======================================\n";
+    std::cout << "Sword section: ";
+    std::cin >> ch1;
+    std::transform(ch1.begin(), ch1.end(), ch1.begin(), ::tolower);
+    std::cout << "Armor section: ";
+    std::cin >> ch2;
+    std::transform(ch2.begin(), ch2.end(), ch2.begin(), ::tolower);
+    std::cout << "Accessory section: ";
+    std::cin >> ch3;
+    std::transform(ch3.begin(), ch3.end(), ch3.begin(), ::tolower);
+}
 void items() {
     std::cout << "Alright, select the items you want to wear: \n";
     std::cout << "1. Sword\n";
@@ -213,17 +226,20 @@ void ch() {
     std::cout << "4. Check inventory\n";
     std::cout << "5. Leave\n";
 }
-void action() {
-    std::cout << "What do you want to do?" << std::endl;
-    std::cout << "1. Check status" << std::endl;
-    std::cout << "2. Leave\n";
-}
+
 struct tool{
-    int choice = 0;
+    int choice;
     int act;
     int choose;
     char decide = '-';
+    std::string ch1;
+    std::string ch2;
+    std::string ch3;
 };
+void action(tool& tools) {
+    std::cout << "Select one companion to check it status: ";
+    std::cin >> tools.choose;
+}
 namespace {
     class Stats {
     public:
@@ -239,54 +255,123 @@ namespace {
         double sumDamage = 0;
         double sumSpeed = 0;
 
-        void direWstick(Companion& comp, Sword& sw) {
-            comp.Direwolf();
-            sw.stick();
-
-            sumHP = comp.HP + sw.hp;
-            sumEnergy = comp.energy + sw.energy;
-            sumDamage = comp.damage + sw.Atk;
-            sumSpeed = comp.speed + sw.spd;
-        }
-
         void companions(Companion& comp) {
             sumHP += comp.HP;
             sumEnergy += comp.energy;
             sumDamage += comp.damage;
             sumSpeed += comp.speed;
         }
-
-        void swords(Sword& sw) {
-
-            sumHP += sw.hp;
-            sumEnergy += sw.energy;
-            sumDamage += sw.Atk;
-            sumSpeed += sw.spd;
+        void equip(Sword& sw, Armor& ar, Accessory& ac) {
+            std::string swordEquip;
+            std::string armorEquip;
+            std::string accessoryEquip;
         }
-        void armors(Armor& ar) {
+        void calc(Sword& sw, Armor& ar, Accessory& ac, std::string swordEquip, std::string armorEquip, std::string accessoryEquip) {
+            if (swordEquip == "stick") sw.stick();
+            else if (swordEquip == "sword") sw.sword();
+            else if (swordEquip == "greatsword") sw.greatsword();
+            else if (swordEquip == "none"){}
+            else std::cout << "We can't find that kind of sword\n";
 
-            sumHP += ar.hp;
-            sumEnergy += ar.energy;
-            sumDamage += ar.Atk;
-            sumSpeed += ar.spd;
+            if (armorEquip == "chain") ar.chain();
+            else if (armorEquip == "iron") ar.iron();
+            else if (armorEquip == "diamond") ar.diamond();
+            else if (armorEquip == "none"){}
+            else std::cout << "We can't find that kind of armor\n";
+
+            if (accessoryEquip == "necklace") ac.necklace();
+            else if (accessoryEquip == "boots") ac.boots();
+            else if (accessoryEquip == "hat") ac.hat();
+            else if (accessoryEquip == "none"){}
+            else std::cout << "We can't find that kind of sword\n";
+
+            sumHP = (sword.hp + armor.hp) * accessory.hp;
+            sumEnergy = (sword.energy + armor.energy) * accessory.energy;
+            sumDamage = (sword.Atk + armor.Atk) * accessory.Atk;
+            sumSpeed = (sword.spd + armor.spd) * accessory.spd;
+        }
+
+    };
+}
+namespace {
+    class statTemplate : public Stats{
+    public:
+        void direwolfTemplate(Stats& s) {
+            std::cout << "Species: Direwolf\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
+        }
+        void griffinTemplate(Stats& s) {
+            std::cout << "Species: Griffin\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
+        }
+        void slimeTemplate(Stats& s) {
+            std::cout << "Species: Slime\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
         }
     };
 }
+
 int main() {
     std::string companion[] = {"1. Direwolf", "2. Griffin", "3. Slime"};
     std::string attacker[] = {"1. Fenrir", "2. Phoenix", "3. Mystic hound"};
     std::string weapon[] = {"stick", "sword", "greatsword"};
     Stats stat = {};
-    Companion comp;
+    Companion comps;
     Sword sword;
     Armor armor;
-    comp.Direwolf();
-    sword.greatsword();
-    armor.diamond();
-    stat.companions(comp);
-    stat.swords(sword);
-    stat.armors(armor);
-    std::cout << stat.sumDamage;
+    Accessory accessory;
+    tool tool;
+    statTemplate Template;
+
+    loading();
+    do {
+        ch();
+        std::cin >> tool.choice;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid choice!!!, input number between 1-5!!\n";
+        }
+    }while (tool.choice < 1 || tool.choice > 5);
+    switch (tool.choice) {
+        case 1:
+            status();
+            break;
+        case 2:
+            comp(companion, 3);
+            action(tool);
+            if (tool.choose == 1) {
+                comps.Direwolf();
+                stat.companions(comps);
+                Template.direwolfTemplate(stat);
+                Input(tool.ch1, tool.ch2, tool.ch3);
+                stat.equip(sword, armor, accessory);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2, tool.ch3);
+            } else if (tool.choose == 2) {
+                comps.Griffin();
+                stat.companions(comps);
+                Template.griffinTemplate(stat);
+            }else if (tool.choose == 3) {
+                comps.Slime();
+                stat.companions(comps);
+                Template.slimeTemplate(stat);
+            }
+            break;
+        default:
+
+            break;
+    }
+
+
     return 0;
 }
 
