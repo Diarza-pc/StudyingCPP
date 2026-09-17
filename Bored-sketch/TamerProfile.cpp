@@ -8,7 +8,6 @@
 namespace {
 class Equipment {
     public:
-    std::string equipment = "-";
     double Atk = 0;
     double energy = 0;
     double spd = 0;
@@ -96,10 +95,6 @@ namespace {
 namespace {
     class Pet{
     public:
-        Equipment equip;
-        Sword sword;
-        Armor armor;
-        Accessory accessory;
         double HP = 0;
         double energy = 0;
         double damage = 0;
@@ -183,28 +178,6 @@ void attk(std::string arr2[], int size2) {
     }
 }
 
-void Input(std::string ch1, std::string ch2, std::string ch3) {
-    std::cout << "====================DISPLAY====================\n";
-    std::string sword[] = {"1. Stick", "2. Sword", "3. Greatsword"};
-    std::string armor[] = {"1. Chain", "2. Iron", "3. Diamond"};
-    std::string accessory[] = {"1. Necklace", "2. Boots", "3. Hat"};
-
-    std::cout << std::left << std::setw(20) << "==Sword==" << std::setw(20) <<  "==Armor==" << "==Accessory==" << '\n';
-
-    for (int i = 0; i < 3; i++) {
-        std::cout << std::left << std::setw(20) << sword[i] << std::setw(20) << armor[i] << accessory[i] << '\n';
-    }
-    std::cout << "=======================================\n";
-    std::cout << "Sword section: ";
-    std::cin >> ch1;
-    std::transform(ch1.begin(), ch1.end(), ch1.begin(), ::tolower);
-    std::cout << "Armor section: ";
-    std::cin >> ch2;
-    std::transform(ch2.begin(), ch2.end(), ch2.begin(), ::tolower);
-    std::cout << "Accessory section: ";
-    std::cin >> ch3;
-    std::transform(ch3.begin(), ch3.end(), ch3.begin(), ::tolower);
-}
 void items() {
     std::cout << "Alright, select the items you want to wear: \n";
     std::cout << "1. Sword\n";
@@ -229,9 +202,8 @@ void ch() {
 
 struct tool{
     int choice;
-    int act;
     int choose;
-    char decide = '-';
+    bool validation;
     std::string ch1;
     std::string ch2;
     std::string ch3;
@@ -243,13 +215,6 @@ void action(tool& tools) {
 namespace {
     class Stats {
     public:
-        Equipment equipment;
-        Companion statCompanion;
-        Attacker statAttacker;
-        Sword sword;
-        Armor armor;
-        Accessory accessory;
-
         double sumHP = 0;
         double sumEnergy = 0;
         double sumDamage = 0;
@@ -261,12 +226,34 @@ namespace {
             sumDamage += comp.damage;
             sumSpeed += comp.speed;
         }
-        void equip(Sword& sw, Armor& ar, Accessory& ac) {
-            std::string swordEquip;
-            std::string armorEquip;
-            std::string accessoryEquip;
+        void attacker(Attacker& attk) {
+            sumHP += attk.HP;
+            sumEnergy += attk.energy;
+            sumDamage += attk.damage;
+            sumSpeed += attk.speed;
         }
         void calc(Sword& sw, Armor& ar, Accessory& ac, std::string swordEquip, std::string armorEquip, std::string accessoryEquip) {
+            std::cout << "====================DISPLAY====================\n";
+            std::string swords[] = {"1. Stick", "2. Sword", "3. Greatsword"};
+            std::string armors[] = {"1. Chain", "2. Iron", "3. Diamond"};
+            std::string accessorys[] = {"1. Necklace", "2. Boots", "3. Hat"};
+
+            std::cout << std::left << std::setw(20) << "==Sword==" << std::setw(20) <<  "==Armor==" << "==Accessory==" << '\n';
+
+            for (int i = 0; i < 3; i++) {
+                std::cout << std::left << std::setw(20) << swords[i] << std::setw(20) << armors[i] << accessorys[i] << '\n';
+            }
+            std::cout << "=======================================\n";
+            std::cout << "Sword section: ";
+            std::cin >> swordEquip;
+            std::transform(swordEquip.begin(), swordEquip.end(), swordEquip.begin(), ::tolower);
+            std::cout << "Armor section: ";
+            std::cin >> armorEquip;
+            std::transform(armorEquip.begin(), armorEquip.end(), armorEquip.begin(), ::tolower);
+            std::cout << "Accessory section: ";
+            std::cin >> accessoryEquip;
+            std::transform(accessoryEquip.begin(), accessoryEquip.end(), accessoryEquip.begin(), ::tolower);
+
             if (swordEquip == "stick") sw.stick();
             else if (swordEquip == "sword") sw.sword();
             else if (swordEquip == "greatsword") sw.greatsword();
@@ -285,10 +272,10 @@ namespace {
             else if (accessoryEquip == "none"){}
             else std::cout << "We can't find that kind of sword\n";
 
-            sumHP = (sword.hp + armor.hp) * accessory.hp;
-            sumEnergy = (sword.energy + armor.energy) * accessory.energy;
-            sumDamage = (sword.Atk + armor.Atk) * accessory.Atk;
-            sumSpeed = (sword.spd + armor.spd) * accessory.spd;
+            sumHP += (sw.hp + ar.hp) * ac.hp;
+            sumEnergy += (sw.energy + ar.energy) * ac.energy;
+            sumDamage += (sw.Atk + ar.Atk) * ac.Atk;
+            sumSpeed += (sw.spd + ar.spd) * ac.spd;
         }
 
     };
@@ -317,6 +304,27 @@ namespace {
             std::cout << "Damage: " << s.sumDamage << '\n';
             std::cout << "Speed: " << s.sumSpeed << '\n';
         }
+        void fenrirTemplate(Stats& s) {
+            std::cout << "Species: Fenrir\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
+        }
+        void phoenixTemplate(Stats& s) {
+            std::cout << "Species: Phoenix\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
+        }
+        void mystichoundTemplate(Stats& s) {
+            std::cout << "Species: Mystic Hound\n";
+            std::cout << "HP: " << s.sumHP << '\n';
+            std::cout << "Energy: " << s.sumEnergy << '\n';
+            std::cout << "Damage: " << s.sumDamage << '\n';
+            std::cout << "Speed: " << s.sumSpeed << '\n';
+        }
     };
 }
 
@@ -326,6 +334,7 @@ int main() {
     std::string weapon[] = {"stick", "sword", "greatsword"};
     Stats stat = {};
     Companion comps;
+    Attacker attack;
     Sword sword;
     Armor armor;
     Accessory accessory;
@@ -341,36 +350,95 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid choice!!!, input number between 1-5!!\n";
         }
-    }while (tool.choice < 1 || tool.choice > 5);
     switch (tool.choice) {
         case 1:
             status();
             break;
         case 2:
             comp(companion, 3);
-            action(tool);
+            while (true) {
+                action(tool);
+                if (std::cin.fail()) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid choice!!\n";
+                }else if (tool.choose > 0 && tool.choose < 4) {
+                    tool.validation = true;
+                } else {
+                    std::cout << "Invalid number!!\n";
+                }
+                if (tool.validation == true) {
+                    break;
+                }
+            }
             if (tool.choose == 1) {
                 comps.Direwolf();
                 stat.companions(comps);
                 Template.direwolfTemplate(stat);
-                Input(tool.ch1, tool.ch2, tool.ch3);
-                stat.equip(sword, armor, accessory);
-                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2, tool.ch3);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
+                Template.direwolfTemplate(stat);
             } else if (tool.choose == 2) {
                 comps.Griffin();
                 stat.companions(comps);
+                Template.griffinTemplate(stat);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
                 Template.griffinTemplate(stat);
             }else if (tool.choose == 3) {
                 comps.Slime();
                 stat.companions(comps);
                 Template.slimeTemplate(stat);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
+                Template.slimeTemplate(stat);
+            }
+            break;
+        case 3:
+            ::attk(attacker, 3);
+            while (true) {
+                action(tool);
+                if (std::cin.fail()) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid choice!!\n";
+                }else if (tool.choose > 0 && tool.choose < 4) {
+                    tool.validation = true;
+                } else {
+                    std::cout << "Invalid number!!\n";
+                }
+                if (tool.validation == true) {
+                    break;
+                }
+            }
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid choice!!\n";
+                continue;
+            }
+            if (tool.choose == 1) {
+                attack.Fenrir();
+                stat.attacker(attack);
+                Template.fenrirTemplate(stat);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
+                Template.fenrirTemplate(stat);
+            } else if (tool.choose == 2) {
+                attack.Phoenix();
+                stat.attacker(attack);
+                Template.phoenixTemplate(stat);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
+                Template.phoenixTemplate(stat);
+            } else if (tool.choose == 3) {
+                attack.MysticHound();
+                stat.attacker(attack);
+                Template.mystichoundTemplate(stat);
+                stat.calc(sword, armor, accessory, tool.ch1, tool.ch2,tool.ch3);
+                Template.mystichoundTemplate(stat);
             }
             break;
         default:
-
+            std::cout << "ERROR\n";
             break;
     }
-
+    }while (tool.choice < 1 || tool.choice > 5);
 
     return 0;
 }
