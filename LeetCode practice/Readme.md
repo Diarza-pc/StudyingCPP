@@ -1,0 +1,1 @@
+Anyway, this was just a.. cheatsheet i guess? or maybe precisely is something i just found out from the LeetCode problem i'm trying to solve
